@@ -4,7 +4,7 @@ import { spawnSync } from 'child_process'
 import { parseResponse } from "http-string-parser"
 import { resolve } from "path"
 
-let app = JSON.parse('{"host": "lambda.dev", "https": true}') // lar41-properties
+let app = JSON.parse('{"host": "lambda.dev", "prefix": "", "https": true}') // lar41-properties
 
 export function handler(event, context, callback){
     context.callbackWaitsForEmptyEventLoop = false
@@ -29,7 +29,7 @@ export function handler(event, context, callback){
         }).join("&")
     }
 
-    var scriptPath = resolve(__dirname + '/public/index.php')
+    var scriptPath = resolve(__dirname + app.prefix + '/public/index.php')
 
     var proc = spawnSync('./php-cgi', ['-f', scriptPath], {
         env: Object.assign({
